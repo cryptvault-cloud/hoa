@@ -1,6 +1,0 @@
-run: 
-  script: 
-    {{- range $key, $value := .Vars.envs}}
-    - export {{$value}}
-    {{- end}}
-    - {{ .Vars.Command}}
