@@ -85,9 +85,9 @@ func main() {
 		},
 		Commands: []*cli.Command{
 			{
-				Name:        "keys",
-				Description: "Load global to current bash all Vault envs",
-				Action:      runner.ShowKeys,
+				Name:   "keys",
+				Usage:  "Show all Vault keys related to given identity",
+				Action: runner.ShowKeys,
 			},
 		},
 	}
