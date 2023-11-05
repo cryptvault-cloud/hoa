@@ -24,6 +24,19 @@ GLOBAL OPTIONS:
    --executer value, --sh value          Shell to execute child application (default: "/bin/sh") [$VAULT_EXECUTER]
    --help, -h                            show help
 ```
+
+# Configuration 
+
+It is possible to map the keys of the environment variables to new names via configuration.
+
+vault.env
+```
+VAULT_VALUE_KEY_A=NEW_KEY_NAME
+VAULT_VALUE_KEY_B=OTHER_NEW_KEY_NAME
+```
+
+to find out current environment keys execute `vault-hoa keys`
+
 # How to install
 
 ### With go
