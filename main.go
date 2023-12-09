@@ -206,7 +206,7 @@ func (r *Runner) getAlleValues() (map[string]string, error) {
 	}
 	result := make(map[string]string)
 	for _, v := range resp {
-		iv, err := r.pClient.GetIdentityValueById(v)
+		iv, err := r.pClient.GetIdentityValueById(v.Id)
 		if err != nil {
 			return nil, err
 		}
