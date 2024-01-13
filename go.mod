@@ -3,7 +3,7 @@ module github.com/cryptvault-cloud/vault-hoa
 go 1.20
 
 require (
-	github.com/cryptvault-cloud/api v0.0.9
+	github.com/cryptvault-cloud/api v0.1.0
 	github.com/cryptvault-cloud/helper v0.0.13
 	github.com/urfave/cli/v2 v2.27.1
 	go.uber.org/zap v1.26.0
