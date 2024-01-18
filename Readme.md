@@ -44,9 +44,51 @@ to find out current environment keys execute `vault-hoa keys`
 ```
 go install github.com/cryptvault-cloud/vault-hoa@latest
 ```
+# With Docker
+```sh
+docker pull ghcr.io/cryptvault-cloud/vault-hoa:latest
+
+docker run -e VAULT_ID=[your-vault-id] -e VAULT_IDENTITY_KEY=[identity private key]  ghcr.io/cryptvault-cloud/vault-hoa:latest env  
+```
+
+## Use multistage build
+
+you can simply use mutistage docker to transfer the vault hoa binary from the existing docker image to your target image
+
+```dockerfile
+# hoa container
+FROM ghcr.io/cryptvault-cloud/vault-hoa:latest as hoa
+
+# your target dockerfile
+FROM alpine:latest
+WORKDIR /my_dir
+COPY ./your_app_execution ./app
+COPY --from=hoa /usr/bin/vault-hoa ./vault-hoa
+CMD ["./vault-hoa", "./app"]
+
+```
+
+or by downloading the binary 
+
+(For example, for target images that have a different CPU structure )
+
+```dockerfile
+FROM alpine:latest as hoa
+RUN wget -O /usr/bin/vault-hoa https://github.com/cryptvault-cloud/vault-hoa/releases/download/v0.0.10/vault-hoa_0.0.10_linux_arm64
+RUN chmod 755 /usr/bin/vault-hoa
+# your target dockerfile
+FROM alpine:latest
+WORKDIR /your_app_execution
+COPY ./hoa_test ./app
+COPY --from=hoa /usr/bin/vault-hoa ./vault-hoa
+CMD ["./vault-hoa", "./app"]
+
+
+```
 
 # Over download
 Go to the release and download the binary you need for your OS
+
 
 # Getting start
 
