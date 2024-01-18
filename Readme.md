@@ -51,7 +51,7 @@ docker pull ghcr.io/cryptvault-cloud/vault-hoa:latest
 docker run -e VAULT_ID=[your-vault-id] -e VAULT_IDENTITY_KEY=[identity private key]  ghcr.io/cryptvault-cloud/vault-hoa:latest env  
 ```
 
-## Use multistage build
+## Use multistage build (simple example)
 
 you can simply use mutistage docker to transfer the vault hoa binary from the existing docker image to your target image
 
