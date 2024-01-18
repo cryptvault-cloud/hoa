@@ -23,9 +23,12 @@ const (
 
 	CliKeyValueMap = "key_value_map"
 	CliServerUrl   = "serverUrl"
-	CliExecuter    = "executer"
+	App            = "VAULT"
+)
 
-	App = "VAULT"
+var (
+	version = "dev"
+	commit  = "none"
 )
 
 func getFlagEnvByFlagName(flagName string) string {
@@ -38,6 +41,7 @@ func main() {
 	runner := Runner{}
 	app := &cli.App{
 		Usage:     "vault-client",
+		Version:   fmt.Sprintf("%s [%s]", version, commit),
 		ArgsUsage: "{application commend to executed }",
 		Action:    runner.Inject,
 		Before:    runner.Before,
@@ -72,15 +76,8 @@ func main() {
 				Name:    CliKeyValueMap,
 				Aliases: []string{"remap"},
 				EnvVars: []string{getFlagEnvByFlagName(CliKeyValueMap)},
-				Usage:   "path to Key=value map file",
+				Usage:   "path to Key=value map file. tip with sub command `keys` you can find all keys to remap",
 				Value:   "vault.env",
-			},
-			&cli.StringFlag{
-				Name:    CliExecuter,
-				Aliases: []string{"sh"},
-				EnvVars: []string{getFlagEnvByFlagName(CliExecuter)},
-				Value:   "/bin/sh",
-				Usage:   "Shell to execute child application",
 			},
 		},
 		Commands: []*cli.Command{
@@ -178,7 +175,7 @@ func (r *Runner) Inject(c *cli.Context) error {
 		envs = append(envs, fmt.Sprintf("%s=%s", k, v))
 	}
 	envs = append(envs, os.Environ()...)
-	cmd := exec.Command(c.String(CliExecuter), "-c", executionCommand)
+	cmd := exec.Command(executionCommand)
 	cmd.Env = envs
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout

@@ -28,7 +28,7 @@ builds:
   ignore:
     - goos: darwin
       goarch: '386'
-  binary: '{{ .ProjectName }}_v{{ .Version }}'
+  binary: vault-hoa
 archives:
 - format: binary
   name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
@@ -47,6 +47,34 @@ signs:
       - "${signature}"
       - "--detach-sign"
       - "${artifact}"
+
+dockers:
+  - image_templates:
+    - "ghcr.io/cryptvault-cloud/vault-hoa:{{ .Tag }}-amd64"
+    - "ghcr.io/cryptvault-cloud/vault-hoa:latest-amd64"
+    use: buildx
+    build_flag_templates:
+      - "--pull"
+      - "--platform=linux/amd64"
+    goarch: amd64
+  - image_templates:
+    - "ghcr.io/cryptvault-cloud/vault-hoa:{{ .Tag }}-arm64"
+    - "ghcr.io/cryptvault-cloud/vault-hoa:latest-arm64"
+    use: buildx
+    build_flag_templates:
+      - "--pull"
+      - "--platform=linux/arm64"
+    goarch: arm64
+docker_manifests:
+  - name_template: "ghcr.io/cryptvault-cloud/vault-hoa:{{ .Tag }}"
+    image_templates:
+      - "ghcr.io/cryptvault-cloud/vault-hoa:{{ .Tag }}-amd64"
+      - "ghcr.io/cryptvault-cloud/vault-hoa:{{ .Tag }}-arm64"
+  - name_template: "ghcr.io/cryptvault-cloud/vault-hoa:latest"
+    image_templates:
+      - "ghcr.io/cryptvault-cloud/vault-hoa:latest-amd64"
+      - "ghcr.io/cryptvault-cloud/vault-hoa:latest-arm64"
+
 release:
 changelog:
   skip: true
