@@ -94,8 +94,8 @@ func main() {
 }
 
 type Runner struct {
-	client      client.Api
-	pClient     client.ProtectedApi
+	client      client.ApiHandler
+	pClient     client.ProtectedApiHandler
 	publickey   helper.Base64PublicPem
 	privateKey  *ecdsa.PrivateKey
 	identityID  string
@@ -153,7 +153,7 @@ func (r *Runner) Before(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	r.pClient = *r.client.GetProtectedApi(key, c.String(CliVaultId))
+	r.pClient = r.client.GetProtectedApi(key, c.String(CliVaultId))
 	r.publickey = b64PubKey
 	r.privateKey = key
 	id, err := r.publickey.GetIdentityId(c.String(CliVaultId))
